@@ -4,3 +4,9 @@ export type PostProps = {
   body: string;
   onDelete?: (postId: number) => void;
 };
+
+export type links = {
+  name: string;
+  icon: JSX.Element;
+  path: string;
+};
