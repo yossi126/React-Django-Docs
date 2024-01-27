@@ -1,3 +1,6 @@
+/**
+ * Renders the sidebar component that displays a list of links, a dark mode toggle, and user information.
+ */
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -5,7 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Card, CardHeader, Typography } from "@mui/material";
+import { Box, Typography, Switch } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import ArticleIcon from "@mui/icons-material/Article";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -13,25 +16,28 @@ import CodeIcon from "@mui/icons-material/Code";
 import HomeIcon from "@mui/icons-material/Home";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { setIsClosing, setMobileOpen } from "../store/features/sideBarSlice";
-import { Link } from "react-router-dom";
+import { setDarkTheme } from "../store/features/themeSlice";
+import { Link, useFetcher } from "react-router-dom";
 import { links } from "../types/types";
 import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import NightlightIcon from "@mui/icons-material/Nightlight";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 const Content = () => {
+  let fetcher = useFetcher();
+  const { isDarkTheme } = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
 
   const handleDrawerClose = () => {
     dispatch(setIsClosing(false));
     dispatch(setMobileOpen(false));
   };
+
   return (
     <>
       <Toolbar>
-        <Typography variant="h6" noWrap component="div">
-          Docs
-        </Typography>
+        <Typography variant="h6">Docs</Typography>
       </Toolbar>
       <Divider />
       <div
@@ -51,9 +57,9 @@ const Content = () => {
                     {/* Render the appropriate icon based on the link */}
                     {link.icon}
                   </ListItemIcon>
-                  <Typography fontFamily="Open Sans">
+                  <Typography>
                     <Link
-                      style={{ textDecoration: "none", color: "black" }}
+                      style={{ textDecoration: "none", color: "inherit" }}
                       to={link.path}
                     >
                       {link.name}
@@ -63,36 +69,44 @@ const Content = () => {
               </ListItem>
             );
           })}
+          {/* dark mode toggle */}
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {isDarkTheme ? <NightlightIcon /> : <LightModeIcon />}
+              </ListItemIcon>
+              <Switch
+                onChange={() => dispatch(setDarkTheme())}
+                checked={isDarkTheme}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
-        <Card>
-          <CardHeader
-            avatar={<Avatar>R</Avatar>}
-            action={
-              <IconButton size="small">
-                <LogoutIcon fontSize="inherit" />
-              </IconButton>
-            }
-            title="Yossi B."
-            // subheader="yossi126@gmail.com"
-          />
-        </Card>
-
-        {/* <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <AccountCircleIcon />
-
-          <Box>
-            <Typography variant="subtitle2">Yossi B.</Typography>
-            <Typography variant="caption">yossi126@gmail.com</Typography>
-          </Box>
-          <IconButton size="small">
-            <LogoutIcon fontSize="inherit" />
-          </IconButton>
-        </Box> */}
+        {/* user  */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            mb: 4,
+          }}
+        >
+          <Avatar>YB</Avatar>
+          <Typography>Yossi Braunshtein</Typography>
+          <Typography variant="caption">yossi126@gmail.com</Typography>
+          {/* log out button */}
+          <fetcher.Form method="post" action="/logout">
+            <IconButton size="medium" type="submit">
+              <LogoutIcon fontSize="inherit" />
+            </IconButton>
+          </fetcher.Form>
+        </Box>
       </div>
     </>
   );
 };
 
+// side bar links
 const allLinks: Array<links> = [
   {
     name: "Home",
@@ -116,6 +130,9 @@ const allLinks: Array<links> = [
   },
 ];
 
+/**
+ * Renders the sidebar component that displays a list of links, a dark mode toggle, and user information.
+ */
 const SideBar = () => {
   const dispatch = useAppDispatch();
   const { mobileOpen } = useAppSelector((state) => state.sideBar);
@@ -139,7 +156,7 @@ const SideBar = () => {
           // width: "10%",
 
           "& .MuiDrawer-paper": {
-            // width: "10%",
+            width: "10%",
             minWidth: "200px",
           },
         }}

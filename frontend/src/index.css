@@ -16,6 +16,8 @@
 @media screen and (max-width: 900px) {
   .sidebar {
     display: none;
+    /* transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out; */
   }
   /* .context {
     width: calc(100% - 240px);

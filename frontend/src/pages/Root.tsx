@@ -2,10 +2,15 @@ import { LoaderFunctionArgs, Outlet, redirect } from "react-router-dom";
 import { fakeAuthProvider } from "../auth";
 import SideBar from "../components/SideBar";
 import AppBarComponent from "../components/AppBar";
+import { Box } from "@mui/material";
 
 const Root = () => {
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <Box
+      color={"text.primary"}
+      bgcolor={"background.default"}
+      sx={{ display: "flex", height: "100vh" }}
+    >
       {/* left side - the sideBar */}
       <div
         className="sidebar"
@@ -29,16 +34,15 @@ const Root = () => {
         <AppBarComponent />
         <div
           style={{
-            height: "15vh",
-            backgroundColor: "#4169E1",
+            height: "100vh",
+            // backgroundColor: "#4169E1",
             padding: "0 20px",
           }}
         >
-          header
+          <Outlet />
         </div>
-        <Outlet />
       </div>
-    </div>
+    </Box>
   );
 };
 

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { sideBarSlice } from "./features/sideBarSlice";
+import { themeSlice } from "./features/themeSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 // ...
@@ -7,6 +8,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 export const store = configureStore({
   reducer: {
     sideBar: sideBarSlice.reducer,
+    theme: themeSlice.reducer,
   },
 });
 
