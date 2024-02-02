@@ -9,7 +9,9 @@ import AuthPage, {
 } from "./pages/AuthPage";
 import Root, { loader as rootLoader } from "./pages/Root";
 import HomePage from "./pages/HomePage";
-import TutorialsPage from "./pages/TutorialsPage";
+import TutorialsPage, {
+  loader as tutorialsLoader,
+} from "./pages/TutorialsPage";
 import "./App.css";
 import { lightTheme, darkTheme } from "./theme/themes";
 import { useAppSelector } from "./store/store";
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
       {
         path: "tutorials",
         element: <TutorialsPage />,
+        loader: tutorialsLoader,
       },
       {
         path: "logout",
