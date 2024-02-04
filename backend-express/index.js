@@ -24,10 +24,15 @@ let bucket;
   });
 })();
 
+//routers
+const binDataRouter = require("./routes/BinDataRoutes");
+
 app.use(express.json());
 app.use(logger("dev"));
 app.use(cors());
 app.use(compression());
+
+app.use("/api", binDataRouter);
 
 // Routes for API endpoints
 // Upload a single file
