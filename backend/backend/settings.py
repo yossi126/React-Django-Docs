@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,11 +76,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'djongo',
+#        'NAME': 'brkstests',
+#        'ENFORCE_SCHEMA': False,
+#        'HOST': 'brkstests-shard-00-00.q94f7h5.mongodb.net:27017,brkstests-shard-00-01.q94f7h5.mongodb.net:27017,brkstests-shard-00-02.q94f7h5.mongodb.net:27017',
+#        'USER': 'kleymanbarak',
+#        'PASSWORD': 'i02C9IqvkvELQNrj',
+#        'AUTH_SOURCE': 'admin',
+#        'OPTIONS': {
+#            'uri': 'mongodb+srv://kleymanbarak:i02C9IqvkvELQNrj@brkstests.q94f7h5.mongodb.net/brkstests',
+#        }
+#    }
+#}
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3', 
+        }
 }
 
 
@@ -117,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

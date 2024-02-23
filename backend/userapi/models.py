@@ -2,7 +2,15 @@ from django.db import models
 
 # Create your models here.
 
-class File(models.Model):
+class FileModel(models.Model):
 
-    file_name = models.CharField(max_length=50)
-    file_binary = models.BinaryField(max_length=2048)
+    id = models.AutoField(auto_created=True, primary_key=True)
+    file_name = models.CharField(max_length=100)
+    file = models.FileField(upload_to="files")
+    ver = models.CharField(max_length=5)
+    time_stamp = models.DateTimeField(auto_now=True)
+    
+
+    
+    def __str__(self):
+        return self.file_name
