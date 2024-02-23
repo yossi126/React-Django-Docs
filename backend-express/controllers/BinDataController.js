@@ -2,14 +2,18 @@ const File = require("../model/fileModel");
 
 const uploadFile = async (req, res) => {
   const file = new File({
-    filename: req.file.originalname,
+    filename: req.body.name,
     data: req.file.buffer,
     contentType: req.file.mimetype,
+    version: Number(req.body.version),
+    type: req.body.type,
+    createdAt: new Date(req.body.createdAt),
   });
-
   try {
     await file.save();
-    res.send(file);
+    res
+      .status(201)
+      .json({ file: file.filename, message: "File uploaded successfully" });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -20,14 +24,24 @@ const downloadFile = async (req, res) => {
     const file = await File.findById(req.params.id);
     const fileData = Buffer.from(file.data, "base64"); // Convert base64 string back to binary
 
+    const sanitizedFilename = encodeURIComponent(file.filename); // Sanitize filename from hebrew
     res.set({
       "Content-Type": file.contentType,
-      "Content-Disposition": `attachment; filename=${file.filename}`,
+      "Content-Disposition": `attachment; filename="${sanitizedFilename}"`,
     });
 
     res.send(fileData); // Send binary data as response
   } catch (error) {
     res.status(500).send(error);
+  }
+};
+
+const getAllFiles = async (req, res) => {
+  try {
+    const files = await File.find({}, { data: 0 });
+    res.status(200).json({ files });
+  } catch (error) {
+    res.status(500).send;
   }
 };
 
@@ -60,4 +74,5 @@ app.get("/download/:id", async (req, res) => {
 module.exports = {
   uploadFile,
   downloadFile,
+  getAllFiles,
 };

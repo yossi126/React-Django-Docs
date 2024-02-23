@@ -10,7 +10,7 @@ const { upload } = require("./utils/upload");
 dotenv.config();
 var compression = require("compression");
 const app = express();
-
+const path = require("path");
 // Connect to database
 connectDB();
 
@@ -31,8 +31,13 @@ app.use(express.json());
 app.use(logger("dev"));
 app.use(cors());
 app.use(compression());
+app.use(express.static("public"));
 
 app.use("/api", binDataRouter);
+
+app.get("/", (req, res) => {
+  res.send("<h1>Starter</h1>");
+});
 
 // Routes for API endpoints
 // Upload a single file
